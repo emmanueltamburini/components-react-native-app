@@ -3,7 +3,8 @@ import {View, StyleSheet, Animated, ViewStyle, Button} from 'react-native';
 import {useAnimation} from '../hooks/useAnimation';
 
 export const Animation101Screen = () => {
-  const {opacity, position, fadeIn, fadeOut, startMoving, goToPosition} = useAnimation();
+  const {opacity, position, fadeIn, fadeOut, startMoving, goToPosition} =
+    useAnimation();
 
   const styles = stylesFunction(opacity, position);
 

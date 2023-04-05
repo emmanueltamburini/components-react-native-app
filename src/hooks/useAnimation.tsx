@@ -39,7 +39,6 @@ export const useAnimation = () => {
   };
 
   const goToPosition = (newPosition: number, duration: number = 300) => {
-
     Animated.timing(position, {
       toValue: newPosition,
       duration,
