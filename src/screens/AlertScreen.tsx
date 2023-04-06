@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button, Alert} from 'react-native';
+import {View, StyleSheet, Button, Alert} from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
 import {styles} from '../theme/appTheme';
 import prompt from 'react-native-prompt-android';

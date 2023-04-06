@@ -18,6 +18,7 @@ export const Animation101Screen = () => {
           startMoving(-100, 1000);
         }}
       />
+      <View style={styles.spacer} />
       <Button
         title="Fade out"
         onPress={() => {
@@ -35,6 +36,9 @@ const stylesFunction = (opacity: Animated.Value, top: Animated.Value) => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    spacer: {
+      height: 10,
     },
   });
 
