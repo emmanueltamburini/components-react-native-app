@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Button, Alert} from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
 import {styles} from '../theme/appTheme';
+import prompt from 'react-native-prompt-android';
 
 export const AlertScreen = () => {
   const showAlert = () =>
@@ -22,7 +23,7 @@ export const AlertScreen = () => {
       },
     );
 
-  const showPrompt = () => {
+  const showPromptIOS = () => {
     Alert.prompt(
       'This is a prompt message',
       'This is a sub message',
@@ -33,12 +34,38 @@ export const AlertScreen = () => {
     );
   };
 
+  const showPrompt = () => {
+    prompt(
+      'Enter password',
+      'Enter your password to claim your $1.5B in lottery winnings',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: password => console.log('OK Pressed, password: ' + password),
+        },
+      ],
+      {
+        type: 'secure-text',
+        cancelable: false,
+        defaultValue: 'test',
+        placeholder: 'placeholder',
+      },
+    );
+  };
+
   return (
     <View style={currentStyles.container}>
       <HeaderTitle title="Alerts" />
-      <Text>AlertScreen</Text>
       <Button title="Show alert" onPress={showAlert} />
+      <View style={currentStyles.spacer} />
       <Button title="Show prompt" onPress={showPrompt} />
+      <View style={currentStyles.spacer} />
+      <Button title="Show prompt native (only IOS)" onPress={showPromptIOS} />
     </View>
   );
 };
@@ -47,5 +74,8 @@ const currentStyles = StyleSheet.create({
   container: {
     flex: 1,
     ...styles.globalMargin,
+  },
+  spacer: {
+    height: 10,
   },
 });

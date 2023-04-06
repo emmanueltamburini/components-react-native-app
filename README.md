@@ -16,3 +16,4 @@ This project use the following dependencies:
 
 - [React Navigation - Getting started](<https://reactnavigation.org/docs/getting-started/>)
 - [React Navigation - Stack navigator](<https://reactnavigation.org/docs/stack-navigator/>)
+- [React native prompt android](<https://www.npmjs.com/package/react-native-prompt-android/>)
