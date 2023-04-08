@@ -6,12 +6,21 @@ import {FadeInImage} from '../components/FadeInImage';
 export const InfiniteScrollScreen = () => {
   const [numbers, setNumbers] = useState([0, 1, 2, 3, 4, 5]);
   const renderItemFunction = (item: number) => (
-    <FadeInImage uri={`https://picsum.photos/id/${item}/500/400`} />
+    <FadeInImage
+      style={styles.item}
+      uri={`https://picsum.photos/id/${item}/500/400`}
+    />
   );
 
   const renderFooterFunction = () => (
     <View style={styles.footerContainer}>
       <ActivityIndicator size={25} color="#5856D6" />
+    </View>
+  );
+
+  const renderHeaderFunction = () => (
+    <View style={styles.headerContainer}>
+      <HeaderTitle title="Infinite Scroll" />
     </View>
   );
 
@@ -31,7 +40,7 @@ export const InfiniteScrollScreen = () => {
         data={numbers}
         renderItem={({item}) => renderItemFunction(item)}
         keyExtractor={item => item.toString()}
-        ListHeaderComponent={<HeaderTitle title="Infinite Scroll" />}
+        ListHeaderComponent={renderHeaderFunction}
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={renderFooterFunction}
@@ -43,6 +52,9 @@ export const InfiniteScrollScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  headerContainer: {
+    marginVertical: 15,
   },
   item: {
     width: '100%',

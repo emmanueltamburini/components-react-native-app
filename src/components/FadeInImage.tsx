@@ -1,12 +1,20 @@
 import React, {useState} from 'react';
-import {StyleSheet, Animated, View, ActivityIndicator} from 'react-native';
+import {
+  StyleSheet,
+  Animated,
+  View,
+  ActivityIndicator,
+  StyleProp,
+  ImageStyle,
+} from 'react-native';
 import {useAnimation} from '../hooks/useAnimation';
 
 interface Props {
   uri: string;
+  style?: StyleProp<ImageStyle>;
 }
 
-export const FadeInImage = ({uri}: Props) => {
+export const FadeInImage = ({uri, style}: Props) => {
   const {opacity, fadeIn} = useAnimation();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -15,7 +23,7 @@ export const FadeInImage = ({uri}: Props) => {
     setIsLoading(false);
   };
 
-  const styles = stylesFunction(opacity);
+  const styles = stylesFunction(opacity, style);
   return (
     <View style={styles.container}>
       {isLoading && (
@@ -34,7 +42,10 @@ export const FadeInImage = ({uri}: Props) => {
   );
 };
 
-const stylesFunction = (opacity: Animated.Value) => {
+const stylesFunction = (
+  opacity: Animated.Value,
+  style?: StyleProp<ImageStyle>,
+) => {
   const styles = StyleSheet.create({
     container: {
       justifyContent: 'center',
@@ -48,6 +59,7 @@ const stylesFunction = (opacity: Animated.Value) => {
   const image = {
     width: '100%',
     height: 400,
+    ...(style as any),
     opacity,
   };
 
