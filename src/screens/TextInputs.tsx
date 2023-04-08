@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -7,23 +7,20 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Text,
 } from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
 import {styles} from '../theme/appTheme';
+import {useForm} from '../hooks/useForm';
+import {CustomSwitch} from '../components/CustomSwitch';
 
 export const TextInputs = () => {
-  const [form, setForm] = useState({
+  const {form, onChange} = useForm({
     name: '',
     email: '',
     phone: '',
+    isSubscribe: false,
   });
-
-  const onChange = (value: string, field: keyof typeof form) => {
-    setForm({
-      ...form,
-      [field]: value,
-    });
-  };
 
   return (
     <KeyboardAvoidingView>
@@ -53,6 +50,13 @@ export const TextInputs = () => {
               onChangeText={value => onChange(value, 'phone')}
               keyboardType="phone-pad"
             />
+            <View style={currentStyles.switchRow}>
+              <Text style={currentStyles.switchText}>Subscribe</Text>
+              <CustomSwitch
+                onChange={value => onChange(value, 'isSubscribe')}
+                isOn={form.isSubscribe}
+              />
+            </View>
             <HeaderTitle title={JSON.stringify(form, null, 3)} />
             <View style={currentStyles.spacer} />
           </View>
@@ -77,5 +81,14 @@ const currentStyles = StyleSheet.create({
   },
   spacer: {
     height: 100,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  switchText: {
+    fontSize: 25,
+    marginVertical: 10,
   },
 });
