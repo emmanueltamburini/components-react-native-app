@@ -1,20 +1,12 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
+import {FadeInImage} from '../components/FadeInImage';
 
 export const InfiniteScrollScreen = () => {
   const [numbers, setNumbers] = useState([0, 1, 2, 3, 4, 5]);
   const renderItemFunction = (item: number) => (
-    <Image
-      style={styles.item}
-      source={{uri: `https://picsum.photos/id/${item}/500/400`}}
-    />
+    <FadeInImage uri={`https://picsum.photos/id/${item}/500/400`} />
   );
 
   const renderFooterFunction = () => (
@@ -51,7 +43,6 @@ export const InfiniteScrollScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
   },
   item: {
     width: '100%',
