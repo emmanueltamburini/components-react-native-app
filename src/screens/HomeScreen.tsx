@@ -4,13 +4,11 @@ import {styles} from '../theme/appTheme';
 import {FlatListMenuItem} from '../components/FlatListMenuItem';
 import {menuItems} from '../data/menuItem';
 import {HeaderTitle} from '../components/HeaderTitle';
+import {ItemSeparator} from '../components/ItemSeparator';
 
 export const HomeScreen = () => {
   const currentStyles = currentStylesFunction();
-
-  const renderSeparator = (): JSX.Element => {
-    return <View style={currentStyles.separator} />;
-  };
+  const itemSeparatorFunction = () => <ItemSeparator />;
 
   return (
     <View style={currentStyles.container}>
@@ -19,7 +17,7 @@ export const HomeScreen = () => {
         renderItem={({item}) => <FlatListMenuItem menuItem={item} />}
         keyExtractor={item => item.name}
         ListHeaderComponent={<HeaderTitle title="Menu options" />}
-        ItemSeparatorComponent={renderSeparator}
+        ItemSeparatorComponent={itemSeparatorFunction}
       />
     </View>
   );
@@ -30,10 +28,5 @@ const currentStylesFunction = () =>
     container: {
       flex: 1,
       ...styles.globalMargin,
-    },
-    separator: {
-      borderBottomWidth: 1,
-      opacity: 0.5,
-      marginVertical: 8,
     },
   });
