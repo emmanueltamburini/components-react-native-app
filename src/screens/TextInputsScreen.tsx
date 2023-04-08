@@ -14,7 +14,7 @@ import {styles} from '../theme/appTheme';
 import {useForm} from '../hooks/useForm';
 import {CustomSwitch} from '../components/CustomSwitch';
 
-export const TextInputs = () => {
+export const TextInputsScreen = () => {
   const {form, onChange} = useForm({
     name: '',
     email: '',
