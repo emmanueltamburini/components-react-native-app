@@ -5,11 +5,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props {
   title: string;
+  avoidTop?: boolean;
 }
 
-export const HeaderTitle = ({title}: Props) => {
+export const HeaderTitle = ({title, avoidTop}: Props) => {
   const {top} = useSafeAreaInsets();
-  const currentStyles = currentStylesFunction(top);
+  const currentStyles = currentStylesFunction(avoidTop ? 0 : top);
 
   return (
     <View style={currentStyles.header}>
