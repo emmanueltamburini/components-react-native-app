@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/navigator';
-import {useTheme} from '@react-navigation/native';
 
 interface Props {
   menuItem: MenuItem;
@@ -15,8 +14,6 @@ type navigationProp = StackNavigationProp<RootStackParams>;
 
 export const FlatListMenuItem = ({menuItem}: Props) => {
   const navigation = useNavigation<navigationProp>();
-  const {colors} = useTheme();
-  const styles = stylesFunction(colors);
 
   return (
     <TouchableOpacity
@@ -31,25 +28,16 @@ export const FlatListMenuItem = ({menuItem}: Props) => {
   );
 };
 
-const stylesFunction = (colors: {
-  primary: string;
-  background: string;
-  card: string;
-  text: string;
-  border: string;
-  notification: string;
-}) =>
-  StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      flex: 1,
-    },
-    itemText: {
-      marginLeft: 10,
-      fontSize: 19,
-      color: colors.text,
-    },
-    spacer: {
-      flex: 1,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  itemText: {
+    marginLeft: 10,
+    fontSize: 19,
+  },
+  spacer: {
+    flex: 1,
+  },
+});
