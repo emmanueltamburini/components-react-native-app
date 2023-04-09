@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,8 +7,18 @@ import {
   useWindowDimensions,
   View,
   Image,
+  TouchableOpacity,
+  Animated,
+  ViewStyle,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {useAnimation} from '../hooks/useAnimation';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParams} from '../navigator/navigator';
+
+type navigationProp = StackNavigationProp<RootStackParams>;
 
 interface Slide {
   title: string;
@@ -36,7 +46,21 @@ const items: Slide[] = [
 
 export const SlideScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const {height: screenHeight, width: screenWidth} = useWindowDimensions();
+  const [showButton, setShowButton] = useState(false);
+
+  const {width: screenWidth} = useWindowDimensions();
+  const {opacity, fadeIn} = useAnimation();
+  const fadeInStatic = useRef(fadeIn);
+  const navigation = useNavigation<navigationProp>();
+
+  const styles = stylesFunction(opacity);
+
+  useEffect(() => {
+    if (activeIndex === items.length - 1) {
+      setShowButton(true);
+      fadeInStatic.current(1000);
+    }
+  }, [activeIndex]);
 
   const renderItem = (item: Slide) => {
     return (
@@ -58,44 +82,84 @@ export const SlideScreen = () => {
         layout="default"
         onSnapToItem={index => setActiveIndex(index)}
       />
-      <Pagination
-        dotsLength={items.length}
-        activeDotIndex={activeIndex}
-        dotStyle={styles.dotStyle}
-      />
+      <View style={styles.footerContainer}>
+        <Pagination
+          dotsLength={items.length}
+          activeDotIndex={activeIndex}
+          dotStyle={styles.dotStyle}
+        />
+        {showButton && (
+          <Animated.View style={styles.footerFadeInButtonContainer}>
+            <TouchableOpacity
+              style={styles.footerButtonContainer}
+              onPress={() => navigation.navigate('HomeScreen')}
+              activeOpacity={0.8}>
+              <Text style={styles.footerButtonText}>Enter</Text>
+              <Icon name="chevron-forward-outline" color="white" size={30} />
+            </TouchableOpacity>
+          </Animated.View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 50,
-  },
-  slideContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 40,
-    justifyContent: 'center',
-  },
-  slideImageContainer: {
-    width: 350,
-    height: 400,
-    resizeMode: 'center',
-  },
-  slideTitleContainer: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5856D6',
-  },
-  slideBodyContainer: {
-    fontSize: 16,
-  },
-  dotStyle: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    backgroundColor: '#5856D6',
-  },
-});
+const stylesFunction = (opacity: Animated.Value) => {
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: 50,
+    },
+    slideContainer: {
+      flex: 1,
+      backgroundColor: 'white',
+      borderRadius: 5,
+      padding: 40,
+      justifyContent: 'center',
+    },
+    slideImageContainer: {
+      width: 350,
+      height: 400,
+      resizeMode: 'center',
+    },
+    slideTitleContainer: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#5856D6',
+    },
+    slideBodyContainer: {
+      fontSize: 16,
+    },
+    dotStyle: {
+      width: 10,
+      height: 10,
+      borderRadius: 10,
+      backgroundColor: '#5856D6',
+    },
+    footerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginHorizontal: 20,
+      alignItems: 'center',
+    },
+    footerButtonContainer: {
+      flexDirection: 'row',
+      backgroundColor: '#5856D6',
+      width: 140,
+      height: 45,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    footerButtonText: {
+      fontSize: 25,
+      color: 'white',
+    },
+  });
+
+  const footerFadeInButtonContainer: Animated.WithAnimatedObject<ViewStyle> = {
+    opacity,
+  };
+
+  return {...styles, footerFadeInButtonContainer};
+};
