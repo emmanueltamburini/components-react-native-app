@@ -16,6 +16,7 @@ This project use the following dependencies:
 
 - [React Navigation - Getting started](<https://reactnavigation.org/docs/getting-started/>)
 - [React Navigation - Stack navigator](<https://reactnavigation.org/docs/stack-navigator/>)
+- [React Native Vector Icons](<https://github.com/oblador/react-native-vector-icons>)
 - [React native prompt android](<https://www.npmjs.com/package/react-native-prompt-android/>)
 - [Picsum photos](<https://picsum.photos/>)
 - [React native snap carousel](<https://github.com/meliorence/react-native-snap-carousel>) (I have to use yarn add apurba-bware/react-native-snap-carousel#5a7f809e921262e4e2f646e8cfc4da85f7bd663d because the other wise is not working well)
