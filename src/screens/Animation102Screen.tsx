@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useContext, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,9 +6,14 @@ import {
   PanResponder,
   PanResponderInstance,
 } from 'react-native';
+import {ThemeContext} from '../context/ThemeContext';
 
 export const Animation102Screen = () => {
   const pan = useRef(new Animated.ValueXY()).current;
+  const {theme} = useContext(ThemeContext);
+  const {colors} = theme;
+
+  const styles = stylesFunction(colors);
 
   const panResponder: PanResponderInstance = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -34,21 +39,29 @@ export const Animation102Screen = () => {
     <View style={styles.container}>
       <Animated.View
         {...panResponder.panHandlers}
-        style={[pan.getLayout(), styles.purpleBox]}
+        style={[pan.getLayout(), styles.box]}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  purpleBox: {
-    backgroundColor: '#75CEDB',
-    width: 150,
-    height: 150,
-  },
-});
+const stylesFunction = (colors: {
+  primary: string;
+  background: string;
+  card: string;
+  text: string;
+  border: string;
+  notification: string;
+}) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    box: {
+      backgroundColor: colors.primary,
+      width: 150,
+      height: 150,
+    },
+  });

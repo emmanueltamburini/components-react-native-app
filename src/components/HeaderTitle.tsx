@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {styles} from '../theme/appTheme';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ThemeText} from './ThemeText';
 
 interface Props {
   title: string;
@@ -18,7 +19,7 @@ export const HeaderTitle = ({title, avoidTop, avoidBottom}: Props) => {
 
   return (
     <View style={currentStyles.header}>
-      <Text style={styles.title}>{title}</Text>
+      <ThemeText style={styles.title}>{title}</ThemeText>
     </View>
   );
 };

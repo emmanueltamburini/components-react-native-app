@@ -1,8 +1,7 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
-  Text,
   ImageSourcePropType,
   useWindowDimensions,
   View,
@@ -17,6 +16,8 @@ import {useAnimation} from '../hooks/useAnimation';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/navigator';
+import {ThemeText} from '../components/ThemeText';
+import {ThemeContext} from '../context/ThemeContext';
 
 type navigationProp = StackNavigationProp<RootStackParams>;
 
@@ -52,8 +53,10 @@ export const SlideScreen = () => {
   const {opacity, fadeIn} = useAnimation();
   const fadeInStatic = useRef(fadeIn);
   const navigation = useNavigation<navigationProp>();
+  const {theme} = useContext(ThemeContext);
+  const {colors} = theme;
 
-  const styles = stylesFunction(opacity);
+  const styles = stylesFunction(opacity, colors);
 
   useEffect(() => {
     if (activeIndex === items.length - 1) {
@@ -66,8 +69,10 @@ export const SlideScreen = () => {
     return (
       <View style={styles.slideContainer}>
         <Image source={item.img} style={styles.slideImageContainer} />
-        <Text style={styles.slideTitleContainer}>{item.title}</Text>
-        <Text style={styles.slideBodyContainer}>{item.desc}</Text>
+        <ThemeText ignoreTheme style={styles.slideTitleContainer}>
+          {item.title}
+        </ThemeText>
+        <ThemeText style={styles.slideBodyContainer}>{item.desc}</ThemeText>
       </View>
     );
   };
@@ -94,7 +99,9 @@ export const SlideScreen = () => {
               style={styles.footerButtonContainer}
               onPress={() => navigation.navigate('HomeScreen')}
               activeOpacity={0.8}>
-              <Text style={styles.footerButtonText}>Enter</Text>
+              <ThemeText ignoreTheme style={styles.footerButtonText}>
+                Enter
+              </ThemeText>
               <Icon name="chevron-forward-outline" color="white" size={30} />
             </TouchableOpacity>
           </Animated.View>
@@ -104,7 +111,17 @@ export const SlideScreen = () => {
   );
 };
 
-const stylesFunction = (opacity: Animated.Value) => {
+const stylesFunction = (
+  opacity: Animated.Value,
+  colors: {
+    primary: string;
+    background: string;
+    card: string;
+    text: string;
+    border: string;
+    notification: string;
+  },
+) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -112,7 +129,7 @@ const stylesFunction = (opacity: Animated.Value) => {
     },
     slideContainer: {
       flex: 1,
-      backgroundColor: 'white',
+      backgroundColor: colors.background,
       borderRadius: 5,
       padding: 40,
       justifyContent: 'center',
@@ -125,7 +142,7 @@ const stylesFunction = (opacity: Animated.Value) => {
     slideTitleContainer: {
       fontSize: 20,
       fontWeight: 'bold',
-      color: '#5856D6',
+      color: colors.primary,
     },
     slideBodyContainer: {
       fontSize: 16,
@@ -134,7 +151,7 @@ const stylesFunction = (opacity: Animated.Value) => {
       width: 10,
       height: 10,
       borderRadius: 10,
-      backgroundColor: '#5856D6',
+      backgroundColor: colors.primary,
     },
     footerContainer: {
       flexDirection: 'row',
@@ -144,7 +161,7 @@ const stylesFunction = (opacity: Animated.Value) => {
     },
     footerButtonContainer: {
       flexDirection: 'row',
-      backgroundColor: '#5856D6',
+      backgroundColor: colors.primary,
       width: 140,
       height: 45,
       borderRadius: 10,

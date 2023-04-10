@@ -1,8 +1,10 @@
-import React from 'react';
-import {View, StyleSheet, SectionList, Text} from 'react-native';
+import React, {useContext} from 'react';
+import {View, StyleSheet, SectionList} from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
 import {styles} from '../theme/appTheme';
 import {ItemSeparator} from '../components/ItemSeparator';
+import {ThemeContext} from '../context/ThemeContext';
+import {ThemeText} from '../components/ThemeText';
 
 interface Editorials {
   casa: string;
@@ -118,6 +120,10 @@ const editorials: Editorials[] = [
 ];
 
 export const SectionListScreen = () => {
+  const {theme} = useContext(ThemeContext);
+  const {colors} = theme;
+
+  const currentStyles = stylesFunction(colors);
   const headerComponentFunction = () => <HeaderTitle title="Section List" />;
   const footerComponentFunction = () => (
     <View style={currentStyles.footer}>
@@ -131,7 +137,7 @@ export const SectionListScreen = () => {
       <SectionList
         stickySectionHeadersEnabled
         sections={editorials}
-        renderItem={({item}) => <Text>{item}</Text>}
+        renderItem={({item}) => <ThemeText>{item}</ThemeText>}
         keyExtractor={(item, index) => item + index}
         ListHeaderComponent={headerComponentFunction}
         ListFooterComponent={footerComponentFunction}
@@ -157,15 +163,23 @@ export const SectionListScreen = () => {
   );
 };
 
-const currentStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    ...styles.globalMargin,
-  },
-  sectionHeader: {
-    backgroundColor: 'white',
-  },
-  footer: {
-    marginBottom: 70,
-  },
-});
+const stylesFunction = (colors: {
+  primary: string;
+  background: string;
+  card: string;
+  text: string;
+  border: string;
+  notification: string;
+}) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      ...styles.globalMargin,
+    },
+    sectionHeader: {
+      backgroundColor: colors.background,
+    },
+    footer: {
+      marginBottom: 70,
+    },
+  });
